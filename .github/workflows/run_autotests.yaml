@@ -33,10 +33,12 @@ jobs:
         with:
           distribution: 'microsoft'
           java-version: '17'
-      - name: Install Allure
-        uses: allure-framework/setup-allure@v1
-        with:
-          allure-version: "2.32.0"
+      - name: Install Allure CLI
+        run: |
+          ALLURE_VERSION=2.32.0
+          curl -Lo /tmp/allure.tgz "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz"
+          sudo tar -xzf /tmp/allure.tgz -C /opt/
+          echo "/opt/allure-${ALLURE_VERSION}/bin" >> "$GITHUB_PATH"
       - name: Run all tests
         if: github.event.inputs.deployment_target == 'all'
         run: pytest
