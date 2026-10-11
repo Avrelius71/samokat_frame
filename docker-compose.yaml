@@ -1,0 +1,8 @@
+services:
+  tests:
+    build: .
+    container_name: samokat-playwright-tests
+    user: "1000:1000"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./playwright-report:/app/playwright-report

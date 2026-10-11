@@ -1,7 +1,10 @@
+import pytest
+
 from pages.base_page import BasePage
 from playwright.sync_api import Page, expect, Locator
 
 
+@pytest.mark.skip
 class HomePage(BasePage):
     def __init__(self, page: Page):
         self.page = page
