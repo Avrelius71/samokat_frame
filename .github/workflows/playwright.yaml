@@ -78,11 +78,16 @@ jobs:
           if [ -z "$TEST_TARGETS" ]; then
             TEST_TARGETS="tests/"
           else
-            TEST_TARGETS=$(echo $TEST_TARGETS | tr ',' ' ')
+            TEST_TARGETS=$(echo "$TEST_TARGETS" | tr ',' ' ')
+          fi
+          MARKER_ARGS=""
+          if [ "${{ github.event.inputs.TEST_TYPE }}" != "all" ]; then
+            MARKER_ARGS="-m ${{ github.event.inputs.TEST_TYPE }}"
           fi
           echo "Запуск тестов в ${{ matrix.browser }}..."
-          pytest $TEST_TARGETS -m "${{ github.event.inputs.TEST_TYPE }}" \
+          pytest $TEST_TARGETS $MARKER_ARGS \
             --env=${{ github.event.inputs.TARGET_ENV }} \
+            --browser=${{ matrix.browser }} \
             --alluredir=./allure-results \
             -v || echo "⚠️ Тесты завершены (возможно есть упавшие)"
       - name: 📦 Сохранение результатов
