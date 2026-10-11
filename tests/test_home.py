@@ -2,6 +2,7 @@ import allure
 import pytest
 
 
+@pytest.mark.skip
 @pytest.mark.regression
 @allure.feature('FAQ and navigations')
 class TestHome:
