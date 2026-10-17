@@ -103,6 +103,7 @@ jobs:
   generate_allure_report:
     needs: testing
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - name: 📥 Скачивание результатов тестов
         uses: actions/download-artifact@v4
@@ -110,12 +111,15 @@ jobs:
           pattern: allure-results-*
           path: allure-results-combined
           merge-multiple: true # Сливает результаты всех браузеров в одну папку
-      - name: 📊 Генерация Allure отчёта
-        uses: simple-elf/allure-report-action@master
-        if: always()
+      - name: ☕ Java для Allure CLI
+        uses: actions/setup-java@v4
         with:
-          allure_results: allure-results-combined
-          allure_report: allure-report
+          distribution: temurin
+          java-version: '17'
+      - name: 📊 Генерация Allure отчёта
+        run: |
+          npm install -g allure-commandline
+          allure generate allure-results-combined -o allure-report --clean
       - name: 📦 Подготовка к публикации Pages
         uses: actions/upload-pages-artifact@v3
         with:
