@@ -60,6 +60,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright/python:v1.62.0-jammy
+    env:
+      # Firefox в контейнере GHA: HOME=/github/home принадлежит uid 1001, а процесс — root
+      HOME: /root
     strategy:
       fail-fast: false # Если упадет Firefox, Chromium всё равно продолжит работу
       matrix:
