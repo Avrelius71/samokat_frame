@@ -13,7 +13,6 @@ ORDER_BUTTONS = [
 ]
 
 
-@pytest.mark.skip
 @pytest.mark.regression
 @allure.feature('Order scooter')
 class TestOrder:

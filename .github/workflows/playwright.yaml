@@ -59,7 +59,7 @@ jobs:
     needs: setup_matrix
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright/python:v1.54.0-jammy
+      image: mcr.microsoft.com/playwright/python:v1.62.0-jammy
     strategy:
       fail-fast: false # Если упадет Firefox, Chromium всё равно продолжит работу
       matrix:
