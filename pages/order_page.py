@@ -47,9 +47,10 @@ class OrderPage(BasePage):
         self.input_address.fill(address)
 
     def fill_metro(self, metro: str) -> None:
+        self.input_metro.click()
         self.input_metro.fill(metro)
-        self.input_metro.press('ArrowDown')
-        self.input_metro.press('Enter')
+        option = self.page.locator('.select-search__row', has_text=metro)
+        option.first.click()
 
     def fill_number(self, number: str) -> None:
         self.input_number.fill(number)
