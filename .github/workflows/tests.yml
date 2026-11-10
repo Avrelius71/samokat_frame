@@ -2,7 +2,7 @@ name: Python autotests
 
 on:
   push:
-    branches: [ "main"]
+    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       deployment_target:
@@ -41,15 +41,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install dependencies & Playwright
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           playwright install --with-deps
-
-      - name: Install Playwright browsers
-        run: |
-          playwright install firefox --with-deps
 
       - name: Install Java
         uses: actions/setup-java@v4
@@ -66,19 +62,27 @@ jobs:
 
       - name: Run smoke tests
         if: env.TEST_TARGET == 'smoke'
-        run: pytest -m smoke
+        run: pytest -m smoke --alluredir=./allure-results
 
       - name: Run regression tests
         if: env.TEST_TARGET == 'regression'
-        run: pytest -m regression
+        run: pytest -m regression --alluredir=./allure-results
 
       - name: Run all tests
         if: env.TEST_TARGET == 'all'
-        run: pytest
+        run: pytest --alluredir=./allure-results
+
+      - name: Debug allure results (Проверка наличия файлов)
+        if: always()
+        run: |
+          echo "Содержимое папки allure-results:"
+          ls -la ./allure-results || echo "ПАПКА ПУСТАЯ ИЛИ ОТСУТСТВУЕТ!"
+          echo "Количество JSON файлов результатов:"
+          find ./allure-results -name "*.json" | wc -l
 
       - name: Generate report
         if: always()
-        run: allure generate allure-results -c -o _site
+        run: allure generate ./allure-results -c -o _site
 
       - name: Save allure report
         if: always()
