@@ -31,6 +31,11 @@ jobs:
 
     env:
       TEST_TARGET: ${{ github.event.inputs.deployment_target || 'all' }}
+      # Маппинг секретов GitHub на переменные окружения для Pydantic-settings
+      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+      USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     steps:
       - name: Checkout autotests
@@ -62,15 +67,15 @@ jobs:
 
       - name: Run smoke tests
         if: env.TEST_TARGET == 'smoke'
-        run: pytest -m smoke --alluredir=./allure-results
+        run: pytest -m smoke --browser=chromium --alluredir=./allure-results
 
       - name: Run regression tests
         if: env.TEST_TARGET == 'regression'
-        run: pytest -m regression --alluredir=./allure-results
+        run: pytest -m regression --browser=chromium --alluredir=./allure-results
 
       - name: Run all tests
         if: env.TEST_TARGET == 'all'
-        run: pytest --alluredir=./allure-results
+        run: pytest --browser=chromium --alluredir=./allure-results
 
       - name: Debug allure results (Проверка наличия файлов)
         if: always()

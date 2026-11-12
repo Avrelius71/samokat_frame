@@ -17,6 +17,8 @@ playwright install
 
 `playwright install` ставит браузеры (chromium / firefox / webkit), которые использует pytest-playwright.
 
+Создать в корне файл '.env' и заполнить по примеру из файла .env.example
+
 ## Запуск тестов
 
 Окружение задаётся флагом `--env`: `dev` или `stage` (см. `config/environments.py`).
@@ -31,12 +33,13 @@ pytest --env=stage
 
 ### Полезные флаги
 
-| Флаг | Значения | Откуда | По умолчанию |
-|------|----------|--------|--------------|
-| `--env` | `dev`, `stage` | `conftest.py` | `dev` |
-| `--user-type` | `user`, `admin` | `conftest.py` | пользователь окружения из `environments.py` |
+| Флаг | Значения | Откуда              По умолчанию |
+|------|----------|-------------------|--------------|
+| `--env` | `dev`, `stage` | `conftest.py`     | `dev` |
+| `--user-type` | `user`, `admin` | `.env`     | Дефолтный для выбранного --env` |
 | `--browser` | `chromium`, `firefox`, `webkit` | pytest-playwright | `chromium` |
 | `--headed` | без значения | pytest-playwright | headless (без флага) |
+
 
 Примеры:
 

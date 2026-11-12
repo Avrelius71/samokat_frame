@@ -10,3 +10,5 @@ allure-report
 playwright-report
 .DS_Store
 *.md
+.env
+images/

@@ -3,6 +3,15 @@ services:
     build: .
     container_name: samokat-playwright-tests
     user: "1000:1000"
+    env_file:
+      - .env
+
+    environment:
+      # user 1000:1000 — у этого юзера может не быть домашней папки,
+      # а браузеру нужно куда-то писать профиль. Кидаем HOME в /tmp (всегда доступен на запись).
+      HOME: /tmp
+      BROWSER: chromium
+
     volumes:
       - ./allure-results:/app/allure-results
       - ./playwright-report:/app/playwright-report

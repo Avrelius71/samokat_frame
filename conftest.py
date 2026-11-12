@@ -1,6 +1,6 @@
 import pytest
 
-from config.environments import Environment, environments, print_environment_info, common_users
+from config.environments import Environment, environments, print_environment_info
 from pages.base_page import BasePage
 from pages.home_page import HomePage
 from pages.order_page import OrderPage
@@ -8,10 +8,18 @@ from pages.order_page import OrderPage
 
 def pytest_addoption(parser):
     """Добавляем опции для выбора окружения и типа пользователя."""
-    parser.addoption("--env", default="dev", choices=[e.value for e in Environment],
-                     help="Выберите окружение: dev или stage")
-    parser.addoption("--user-type", default=None, choices=common_users.keys(),
-                     help="Выберите тип пользователя: user или admin")
+    parser.addoption(
+        "--env",
+        default="dev",
+        choices=[e.value for e in Environment],
+        help="Выберите окружение: dev или stage"
+    )
+    parser.addoption(
+        "--user-type",
+        default=None,
+        choices=["user", "admin"],
+        help="Выберите тип пользователя: user или admin"
+    )
 
 def pytest_configure(config):
     """Выводит информацию о тестовом окружении перед запуском."""
