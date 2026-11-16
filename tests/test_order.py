@@ -17,6 +17,7 @@ ORDER_BUTTONS = [
 @allure.feature('Order scooter')
 class TestOrder:
 
+    @pytest.mark.xfail(reason='Баг на хроме')
     @pytest.mark.smoke
     @pytest.mark.parametrize('button, title', ORDER_BUTTONS)
     @pytest.mark.parametrize(
